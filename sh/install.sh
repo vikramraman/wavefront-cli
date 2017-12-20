@@ -54,6 +54,12 @@ function detect_operating_system() {
         echo -e "\ntest -f /etc/redhat-release || test -f /etc/system-release-cpe" >> ${INSTALL_LOG}
         echo "RedHat/CentOS"
         OPERATING_SYSTEM="REDHAT"
+    elif [ -f /etc/os-release ]; then
+        . /etc/os-release
+        os=${ID}
+        if [ "${os}" = "sles" ] || ["${os}" = "opensuse" ]; then
+            OPERATING_SYSTEM="SUSE"
+        fi
     elif [ "$(uname)" == "Darwin" ]; then
         OPERATING_SYSTEM="MAC"
         echo "Mac is not yet supported!"
